@@ -36,7 +36,16 @@ namespace Api
             //Add DI for DataAccess layer
             services.AddScoped<ILog, Log>();
 
-            services.AddControllers();
+            services.AddControllers();            
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Calculator Service API",
+                    Version = "v2",
+                    Description = "Demo service for a web service that add, sub, multiply and divide.",
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +66,9 @@ namespace Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v2/swagger.json", "Calculator Services"));
         }
     }
 }
