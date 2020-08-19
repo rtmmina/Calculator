@@ -7,6 +7,7 @@ using ServiceLogic.Implementations;
 using System.Transactions;
 using DataAccess.Interfaces;
 using DataAccess.Implementations;
+using Microsoft.Extensions.Configuration;
 
 namespace UnitTest
 {
@@ -14,14 +15,25 @@ namespace UnitTest
     public class TestCalculatorForDoubles
     {
         private ICalculator<double> _calculator;
+        private readonly IConfiguration _configuration;
+
+        public static IConfiguration InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            return config;
+        }
         public TestCalculatorForDoubles()
         {
-            ILog _log = new Log();
-            _calculator = new CalculatorDoubles(_log);
+            _configuration = InitConfiguration();
+            ILog _log = new Log(_configuration);
+            _calculator = new CalculatorDoubles(_log, _configuration);
         }
 
         public TestCalculatorForDoubles(ICalculator<double> intergerCalculator)
         {
+            _configuration = InitConfiguration();
             _calculator = intergerCalculator;
         }
 

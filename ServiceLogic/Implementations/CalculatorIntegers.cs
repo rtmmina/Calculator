@@ -4,15 +4,18 @@ using System.Text;
 using ServiceLogic.Interfaces;
 using DataAccess.Interfaces;
 using DataAccess.Implementations;
+using Microsoft.Extensions.Configuration;
 
 namespace ServiceLogic.Implementations
 {
     public class CalculatorIntegers : ICalculator<int>
     {
         private readonly ILog _log;
+        private readonly IConfiguration _configuration;
 
-        public CalculatorIntegers(ILog log)
+        public CalculatorIntegers(ILog log, IConfiguration configuration)
         {
+            _configuration = configuration;
             _log = log;
         }
         public int Add(int firstNmumber, int secondNumber)

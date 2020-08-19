@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using ServiceLogic.Interfaces;
 using DataAccess.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace ServiceLogic.Implementations
 {
     public class CalculatorDoubles : ICalculator<double>
     {
         private readonly ILog _log;
+        private readonly IConfiguration _configuration;
 
-        public CalculatorDoubles(ILog log)
+        public CalculatorDoubles(ILog log, IConfiguration configuration)
         {
+            _configuration = configuration;
             _log = log;
         }
 

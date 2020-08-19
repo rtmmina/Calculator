@@ -6,6 +6,9 @@ using ServiceLogic.Interfaces;
 using ServiceLogic.Implementations;
 using DataAccess.Interfaces;
 using DataAccess.Implementations;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.FileExtensions;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace UnitTest
 {
@@ -13,21 +16,32 @@ namespace UnitTest
     public class TestCalculatorForIntegers
     {
         private ICalculator<int> _calculator;
+        private IConfiguration _configuration;
+
+        public static IConfiguration InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            return config;
+        }
 
         public TestCalculatorForIntegers()
         {
-            ILog _log = new Log() ;
-            _calculator = new CalculatorIntegers(_log);
+            _configuration = InitConfiguration();
+            ILog _log = new Log(_configuration);
+            _calculator = new CalculatorIntegers(_log, _configuration);
         }
         public TestCalculatorForIntegers(ICalculator<int> intergerCalculator)
         {
+            _configuration = InitConfiguration();
             _calculator = intergerCalculator;
         }
-        
+
         #region Add tests
         [TestMethod]
         public void Add_TwoPositive()
-        {         
+        {
             //Act
             var actual = _calculator.Add(5, 6);
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using ServiceLogic.Interfaces;
 
 namespace Api.Controllers
@@ -13,9 +14,11 @@ namespace Api.Controllers
     public class CalculatorIntegersController : ControllerBase
     {
         private readonly ICalculator<int> _calculator;
+        private readonly IConfiguration _configuration;
 
-        public CalculatorIntegersController(ICalculator<int> calculator)
+        public CalculatorIntegersController(ICalculator<int> calculator, IConfiguration configuration)
         {
+            _configuration = configuration;
             _calculator = calculator;
         }
 
